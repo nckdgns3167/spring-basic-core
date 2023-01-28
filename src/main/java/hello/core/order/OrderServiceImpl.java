@@ -1,19 +1,27 @@
 package hello.core.order;
 
 import hello.core.discount.DiscountPolicy;
-import hello.core.discount.FixDiscountPolicy;
-import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
-import hello.core.member.MemoryMemberRepository;
 
 public class OrderServiceImpl implements OrderService {
 
-    // 문제점1: 추상화, 구체화 모두 의존하고 있는 모습. (DIP 위반)
-    // 문제점2: 할인 정책의 변경으로 인한 클라이언트 코드 변경(Fix -> Rate) 불가피 (OCP 위반)
-    // [해결법]: 추상(인터페이스)에만 의존하도록 변경
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    // 관심사를 분리하자.
+    // 추상화, 구체화 모두 의존하는 코드에서 생성자 주입으로 DIP를 지키도록 변경했음. 👉 추상화에만 의존, 구현체 코드가 사라짐.
+    // 이제 의존 관계에 대한 고민은 외부(AppConfig)에 맡기고, "실행에만 집중"하면 된다.
+    // = Dependency Injection (DI)
+    private MemberRepository memberRepository;
     private DiscountPolicy discountPolicy;
+
+    // 설계 변경으로 OrderServiceImpl 는 FixDiscountPolicy(구현체) 에 의존하지 않는다.
+    // 단지 discountPolicy 인터페이스(추상화, 역할)에만 의존한다.
+    // 생성자를 통해 어떤 구현 객체가 들어올지(주입될지)는 알 수 없다.
+    // 생성자를 통해서 어떤 구현 객체를 주입할지는 오직 외부에서 결정한다.
+    // 이제부터 "의존관계에 대한 고민은 외부"에 맡기고 "실행에만 집중"하면 된다.
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     @Override
 
