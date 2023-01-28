@@ -11,9 +11,9 @@ public class OrderServiceImpl implements OrderService {
 
     // 문제점1: 추상화, 구체화 모두 의존하고 있는 모습. (DIP 위반)
     // 문제점2: 할인 정책의 변경으로 인한 클라이언트 코드 변경(Fix -> Rate) 불가피 (OCP 위반)
+    // [해결법]: 추상(인터페이스)에만 의존하도록 변경
     private final MemberRepository memberRepository = new MemoryMemberRepository();
-    private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
-    //    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+    private DiscountPolicy discountPolicy;
 
     @Override
 
