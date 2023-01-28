@@ -1,7 +1,7 @@
 package hello.core;
 
 import hello.core.discount.DiscountPolicy;
-import hello.core.discount.FixDiscountPolicy;
+import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemberService;
 import hello.core.member.MemberServiceImpl;
@@ -10,7 +10,7 @@ import hello.core.order.OrderService;
 import hello.core.order.OrderServiceImpl;
 
 
-// 공연 기획자 역할
+// 공연 기획자 역할, "구성 영역"
 // 이 클래스의 역할은 애플리케이션의 실제 동작에 필요한 "구현 객체를 생성"하는 것.
 // 생성한 객체 인스턴스의 레퍼런스를 "생성자를 통해서 주입(연결)"한다.
 public class AppConfig {
@@ -25,13 +25,16 @@ public class AppConfig {
     }
 
     private static DiscountPolicy discountPolicy() {
-        return new FixDiscountPolicy();
+// 할인 정책을 바꾸었지만 클라이언트 코드인 OrderServiceImpl 를
+// 포함해서 "사용 영역"의 어떤 코드도 변경하지 않았다. "구성 영역"인 이곳만 변경했다.
+// OCP를 지키게 됐다.
+//        return new FixDiscountPolicy();
+        return new RateDiscountPolicy();
     }
 
     public MemberService memberService() {
         return new MemberServiceImpl(memberRepository());
     }
-
 
     public OrderService orderService() {
         return new OrderServiceImpl(memberRepository(), discountPolicy());
