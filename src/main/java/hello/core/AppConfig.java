@@ -24,12 +24,12 @@ public class AppConfig {
     // new MemoryMemberRepository() 코드 중복이 제거됐다.
     // 만약 다른 구현체로 스왑해야할 때 이 부분만 변경하면 된다.
     @Bean
-    public static MemberRepository memberRepository() {
+    public MemberRepository memberRepository() {
         return new MemoryMemberRepository();
     }
 
     @Bean
-    public static DiscountPolicy discountPolicy() {
+    public DiscountPolicy discountPolicy() {
 // 할인 정책을 바꾸었지만 클라이언트 코드인 OrderServiceImpl 를
 // 포함해서 "사용 영역"의 어떤 코드도 변경하지 않았다. "구성 영역"인 이곳만 변경했다.
 // OCP를 지키게 됐다.
