@@ -29,4 +29,11 @@ public class ConfigurationSingletonTest {
         Assertions.assertThat(memberService.getMemberRepository()).isSameAs(memberRepository);
         Assertions.assertThat(orderService.getMemberRepository()).isSameAs(memberRepository);
     }
+    
+    @Test
+    void configurationDeep() {
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+        AppConfig bean = ac.getBean(AppConfig.class);
+        System.out.println("bean.getClass() = " + bean.getClass()); // 바이트조작 라이브러리 xxxCGLIB에 의해 싱글톤 보장이 됨.
+    }
 }
