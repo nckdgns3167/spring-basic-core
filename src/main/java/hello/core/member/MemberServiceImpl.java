@@ -1,5 +1,9 @@
 package hello.core.member;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 // 어떤 인터페이스에 대한 구현체가 딱 하나일 경우에는 그 구현체 이름 뒤에 Impl을 붙여준다.
 public class MemberServiceImpl implements MemberService {
 
@@ -14,6 +18,7 @@ public class MemberServiceImpl implements MemberService {
     // 생성자를 통해 어떤 구현 객체가 들어올지(주입될지)는 알 수 없다.
     // 생성자를 통해서 어떤 구현 객체를 주입할지는 오직 외부에서 결정한다.
     // 이제부터 "의존관계에 대한 고민은 외부"에 맡기고 "실행에만 집중"하면 된다.
+    @Autowired
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
