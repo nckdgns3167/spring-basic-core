@@ -3,10 +3,12 @@ package hello.core.order;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor // final 이 붙은 필드값에 대한 생성자를 알아서 만들어줌...
 public class OrderServiceImpl implements OrderService {
 
     // 관심사를 분리하자.
@@ -21,11 +23,11 @@ public class OrderServiceImpl implements OrderService {
     // 생성자를 통해 어떤 구현 객체가 들어올지(주입될지)는 알 수 없다.
     // 생성자를 통해서 어떤 구현 객체를 주입할지는 오직 외부에서 결정한다.
     // 이제부터 "의존관계에 대한 고민은 외부"에 맡기고 "실행에만 집중"하면 된다.
-    @Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
-        this.memberRepository = memberRepository;
-        this.discountPolicy = discountPolicy;
-    }
+//    @Autowired
+//    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+//        this.memberRepository = memberRepository;
+//        this.discountPolicy = discountPolicy;
+//    }
 
     @Override
 
